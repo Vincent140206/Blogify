@@ -4,6 +4,14 @@
 Sebuah platform blogging sederhana berbasis Laravel. Cocok untuk belajar CRUD, upload gambar, dan autentikasi pengguna.
 
 ---
+## Instal Laravel
+Laravel Documentation : https://laravel.com/docs/12.x/installation  
+Link Youtube :  https://youtu.be/pZqk57Xvujs?si=ArP0a-kI2w9mJYXA (Versi 8)  
+Link Youtube :  https://youtu.be/nW60yGRoUrs?si=J8QRgD8vLZrcDEqy (Versi 11)  
+Atau Referensi lain yang menurut kalian lebih mudah dipahami
+
+## Instal Composer
+Link Composer : https://getcomposer.org/  
 
 ## 🚀 Cara Clone & Jalankan Project
 
@@ -41,14 +49,14 @@ php artisan key:generate
 Buka **DBeaver**, **phpMyAdmin**, atau tools lainnya dan buat database baru, contoh:
 
 ```
-Nama database: blogify_db
+Nama database: blogify
 ```
 
 ---
 
 ### 6. Atur `.env`
 Edit file `.env` untuk disesuaikan dengan konfigurasi lokal kamu:
-
+(Hanya Contoh)
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -92,9 +100,9 @@ http://127.0.0.1:8000
 ## 📌 Catatan
 
 - Gunakan `git pull` secara berkala untuk menarik update terbaru dari repo.
-- Pastikan semua fitur kamu bekerja sebelum melakukan `push`.
+- Pastikan semua fitur bekerja sebelum melakukan `push`.
 - File `.env`, `vendor/`, dan `node_modules/` sudah diabaikan lewat `.gitignore`.
 
 ---
 
-Selamat ngoding! 🚀
+Semangat gesss! 🚀
