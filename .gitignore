@@ -26,3 +26,4 @@ storage/app/public
 
 # Laravel Pint (jika pakai Laravel code formatter)
 .pint.json
+.env
