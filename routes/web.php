@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\UserController;
 
 // Login
 Route::get('/', function () {
@@ -40,4 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/artikel', [ArtikelController::class, 'index']);
+    Route::delete('/user/delete', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('/delete-account', [UserController::class, 'showDeleteForm'])->name('account.delete.form');
+    Route::delete('/delete-account', [UserController::class, 'deleteAccount'])->name('account.delete');
 });
