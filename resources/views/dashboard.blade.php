@@ -12,4 +12,6 @@
     </form>
 
     <p>Ingin ganti password? <a href="{{ route('password.change') }}">Ganti di sini</a></p>
+
+    <p>Hapus Akun? <a href="{{ route('account.delete.form') }}">Klik Disini</a></p>
 @endsection
