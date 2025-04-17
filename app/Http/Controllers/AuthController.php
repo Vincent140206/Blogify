@@ -64,7 +64,7 @@ class AuthController extends Controller
         // Gagal login
         return back()-> withErrors([
             'email' => 'Email atau password salah.',
-        ]);
+        ])->onlyInput('email');
     }
 
     // Proses Logout
@@ -87,12 +87,12 @@ class AuthController extends Controller
             'new_password' => 'required|min:8|confirmed',
         ]);
 
-        if (!Hash::check($request->current_password, auth()->user()->password)) {
+        if (!Hash::check($request->current_password, Auth::user()->password)) {
             return back()->withErrors(['current_password' => 'Password lama salah.']);
         }
 
         /** @var \App\Models\User $user */
-        $user = auth()->user();
+        $user = Auth::user();
         $user->password = bcrypt($request->new_password);
         $user->save();
 
