@@ -5,7 +5,7 @@ Sebuah platform blogging sederhana berbasis Laravel. Cocok untuk belajar CRUD, u
 
 ---
 ## Instal Laravel (Disarankan versi 12)
-Laravel Documentation : https://laravel.com/docs/12.x/installation, https://laravel.com/docs/12.x
+Laravel Documentation : https://laravel.com/docs/12.x/installation, https://laravel.com/docs/12.x  
 Link Youtube :  https://youtu.be/pZqk57Xvujs?si=ArP0a-kI2w9mJYXA (Versi 8)  
 Link Youtube :  https://youtu.be/nW60yGRoUrs?si=J8QRgD8vLZrcDEqy (Versi 11)
 Link Youtube :  https://www.youtube.com/watch?v=upOxC-rVJsU&list=PLPqeNG7ba3a_Sz3tJ1YukfqHE5jZGBmHn (Versi 12)
