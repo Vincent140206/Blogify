@@ -97,4 +97,5 @@ class Article extends Model
     {
         return $query->where('user_id', $userId);
     }
+
 }
