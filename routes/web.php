@@ -7,6 +7,7 @@ use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ArticleController;
 
 // Redirect root ke login
 Route::get('/', function () {
@@ -16,6 +17,9 @@ Route::get('/', function () {
 // =====================
 // AUTH ROUTES
 // =====================
+Route::get('/test-auth', function () {
+    return auth()->check() ? 'Logged in' : 'Not logged in';
+});
 
 // Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -46,8 +50,6 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/artikel', [ArtikelController::class, 'index']);
-
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
@@ -60,4 +62,22 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-account', [UserController::class, 'deleteAccount'])->name('account.delete');
     Route::delete('/user/delete', [UserController::class, 'destroy'])->name('user.destroy');
 
+    // ===================
+    // BLOG
+    // ===================
+
+    // My blogs routes
+    Route::get('/my-blogs', [ArticleController::class, 'myBlogs'])->name('articles.my-blogs');
+    
+    // CRUD routes
+    Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+    Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
+    Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
+    Route::put('/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
+    Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+
 });
+
+// Blog
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');

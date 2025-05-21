@@ -272,8 +272,8 @@
                     <img src="{{ asset('images/profile-icon.svg') }}" alt="Profile" class="profile" />
                 </a>
                 <div class="user-details">
-                    <div class="user-name">Nama User</div>
-                    <div class="user-email">email@example.com</div>
+                    <div class="user-name">{{ Auth::user()->name }}</div>
+                    <div class="user-email">{{ Auth::user()->email }}</div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -281,7 +281,6 @@
                         <img src="{{ asset('images/Logout.png') }}" style="width: 24px; height: 24px;">
                     </button>
                 </form>
-
             </div>
         </div>
 
@@ -291,6 +290,10 @@
         <div class="header-row">
             <h1>Blog Articles</h1>
         </div>
+        <a href="{{ route('articles.create') }}" class="create-btn">
+            <span style="font-size: 1.3rem;">➕</span> Create Article
+        </a>
+
         <div class="header-row-2">
     <span class="subheader">News for your daily needs!</span>
     <form class="search-bar" method="GET">
