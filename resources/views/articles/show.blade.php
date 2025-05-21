@@ -172,6 +172,69 @@
         gap: 30px;
     }
     
+    /* Comment section styles */
+    .comments-container {
+        background-color: #ebebeb;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 30px;
+    }
+    
+    .comment-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #d0d0d0;
+        padding-bottom: 20px;
+    }
+    
+    .comment-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    
+    .comment-actions {
+        position: relative;
+    }
+    
+    .comment-menu-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        transform: rotate(90deg);
+        padding: 0;
+        line-height: 0.5;
+    }
+    
+    .comment-menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        border-radius: 6px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        display: none;
+        z-index: 10;
+        width: 120px;
+    }
+    
+    .comment-menu a, .comment-menu button {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .comment-menu button {
+        color: #f44336;
+    }
+    
     /* Article column */
     .article-column {
         grid-column: 1;
@@ -444,6 +507,57 @@
                 @endauth
             </div>
             
+            <!-- Comments section -->
+            <div class="comments-container" style="background-color: #ebebeb; border-radius: 12px; padding: 20px; margin-top: 30px;">
+                <h2 style="margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; font-weight: bold;">Comment ({{ $article->comments->count() ?? 10 }})</h2>
+                
+                <!-- Add new comment form -->
+                <div style="background-color: white; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <form action="{{ route('comments.store', $article->id) }}" method="POST">
+                        @csrf
+                        <input type="text" name="body" placeholder="Write a Comment" style="width: 100%; border: none; outline: none; padding: 8px 0; font-size: 1rem;">
+                        <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                            <button type="submit" style="background-color: #34558b; color: white; border: none; border-radius: 6px; padding: 8px 20px; cursor: pointer; font-weight: 500;">Submit</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Comments list -->
+                @foreach($article->comments ?? [1, 2, 3] as $comment)
+                <div class="comment-item" style="margin-bottom: 20px; border-bottom: 1px solid #d0d0d0; padding-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="display: flex; gap: 15px;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background-color: #d5d5d5; overflow: hidden;">
+                                <img src="{{ asset('images/profile-icon.svg') }}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div>
+                                <div style="font-weight: bold; margin-bottom: 5px;">
+                                    {{ $comment->user->name ?? 'Bukan pinsentius dilen' }}
+                                </div>
+                                <div style="color: #777; font-size: 0.9rem; margin-bottom: 10px;">
+                                    {{ $comment->created_at ? $comment->created_at->diffForHumans() : '1 hour ago' }}
+                                </div>
+                                <div>
+                                    {{ $comment->body ?? 'Keren banget sumpah, aku termotivasi omaygat' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-actions" style="position: relative;">
+                            <button class="comment-menu-toggle" style="background: none; border: none; cursor: pointer; font-size: 1.5rem; font-weight: bold; color: #333; transform: rotate(90deg); padding: 0; line-height: 0.5;">⋮</button>
+                            <div class="comment-menu" style="position: absolute; right: 0; top: 100%; background: white; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: none; z-index: 10; width: 120px;">
+                                <a href="#" onclick="editComment({{ $comment->id ?? 1 }})" style="display: block; padding: 10px 15px; text-decoration: none; color: #333;">Edit</a>
+                                <form action="{{ route('comments.destroy', $comment->id ?? 1) }}" method="POST" style="display: block; margin: 0;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" style="background: none; border: none; width: 100%; text-align: left; padding: 10px 15px; cursor: pointer; color: #f44336;">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            
             <!-- Back button -->
             <div style="margin-top: 30px;">
                 <a href="{{ url()->previous() }}" style="color: #2876E9; font-weight: 600; display: flex; align-items: center; gap: 5px; text-decoration: none;">
@@ -498,3 +612,65 @@
     </div>
 </div>
 @endsection
+
+<script>
+    // Toggle comment menu on click
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuButtons = document.querySelectorAll('.comment-menu-toggle');
+        
+        menuButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const menu = this.nextElementSibling;
+                
+                // Close all other menus
+                document.querySelectorAll('.comment-menu').forEach(m => {
+                    if (m !== menu) m.style.display = 'none';
+                });
+                
+                // Toggle this menu
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+        
+        // Close menus when clicking elsewhere
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.comment-menu').forEach(menu => {
+                menu.style.display = 'none';
+            });
+        });
+    });
+
+    // Edit comment function (placeholder - would need to be implemented)
+    function editComment(commentId) {
+        // Example implementation - would need to be adjusted for actual usage
+        const commentItem = event.target.closest('.comment-item');
+        const commentText = commentItem.querySelector('div > div:nth-child(2) > div:nth-child(3)').textContent.trim();
+        
+        // Replace the comment text with an editable input
+        const commentContent = commentItem.querySelector('div > div:nth-child(2) > div:nth-child(3)');
+        commentContent.innerHTML = `
+            <form action="/comments/${commentId}" method="POST" style="display: flex; gap: 10px;">
+                @csrf
+                @method('PUT')
+                <input type="text" name="body" value="${commentText}" style="flex: 1; border: 1px solid #ccc; padding: 8px; border-radius: 4px;">
+                <button type="submit" style="background-color: #2876E9; color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer;">Save</button>
+                <button type="button" onclick="cancelEdit(this, '${commentText}')" style="background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 4px; padding: 8px 12px; cursor: pointer;">Cancel</button>
+            </form>
+        `;
+        
+        // Close the menu
+        document.querySelectorAll('.comment-menu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+        
+        event.preventDefault();
+    }
+    
+    // Cancel edit function
+    function cancelEdit(button, originalText) {
+        const form = button.closest('form');
+        const commentContent = form.parentElement;
+        commentContent.innerHTML = originalText;
+    }
+</script>
