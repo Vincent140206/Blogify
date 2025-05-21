@@ -98,4 +98,32 @@ class AuthController extends Controller
 
         return redirect('/dashboard')->with('success', 'Password berhasil diganti!');
     }
+
+    public function showRecoveryForm()
+    {
+        return view('auth.recovery'); // pastikan nama view-nya sesuai
+    }
+
+    public function recoverPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'name' => 'required|string',
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $request->email)
+                    ->where('name', $request->name)
+                    ->first();
+
+        if (!$user || !Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Data tidak cocok atau password lama salah.'])->withInput();
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('login')->with('success', 'Password berhasil di-reset. Silakan login kembali.');
+    }
 }

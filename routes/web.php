@@ -37,6 +37,15 @@ Route::get('/change-password', [AuthController::class, 'showChangePasswordForm']
 // Submit reset password
 Route::post('/change-password', [AuthController::class, 'changePassword'])->middleware('auth')->name('password.change');
 
+Route::get('/forgot-password', function () { return view('auth.change-password'); })->name('password.forgot');
+
+// Form recovery password
+Route::get('/recovery', [AuthController::class, 'showRecoveryForm'])->name('password.recovery.form');
+
+// Submit recovery password
+Route::post('/recovery', [AuthController::class, 'recoverPassword'])->name('password.recovery');
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index']);
