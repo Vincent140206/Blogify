@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-body, html { height: 100%; width: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body, html { height: 100%; width: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
     .dashboard-container { display: flex; height: 100vh; }
     .sidebar {
         width: 90px;
@@ -160,6 +160,77 @@ body, html { height: 100%; width: 100%; margin: 0; padding: 0; font-family: 'Seg
         width: 24px;
         height: 24px;
     }
+    
+    /* Main content container with grid layout */
+    .main-content {
+        flex: 1;
+        padding: 30px;
+        background-color: #f5f7fa;
+        overflow-y: auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+    }
+    
+    /* Article column */
+    .article-column {
+        grid-column: 1;
+    }
+    
+    /* Trending column */
+    .trending-column {
+        grid-column: 2;
+        background-color: white;
+        border-radius: 16px;
+        padding: 0;
+        box-shadow: 0 2px 8px rgba(33,150,243,0.1);
+        height: fit-content;
+    }
+    
+    .trending-header {
+        background-color: #34558b;
+        color: white;
+        padding: 20px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+    
+    .trending-items {
+        padding: 20px;
+    }
+    
+    .trending-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .trending-item:last-child {
+        margin-bottom: 0;
+    }
+    
+    .trending-item-image {
+        width: 120px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+    
+    .trending-item-content h3 {
+        margin: 0 0 8px 0;
+        font-size: 1.1rem;
+        color: #222;
+    }
+    
+    .trending-item-meta {
+        font-size: 0.9rem;
+        color: #777;
+    }
 
     .article-body {
         line-height: 1.8;
@@ -261,6 +332,13 @@ body, html { height: 100%; width: 100%; margin: 0; padding: 0; font-family: 'Seg
         align-items: center;
         gap: 8px;
     }
+    
+    .article-container {
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 2px 8px rgba(33,150,243,0.1);
+    }
 </style>
 
 <div class="dashboard-container">
@@ -310,65 +388,112 @@ body, html { height: 100%; width: 100%; margin: 0; padding: 0; font-family: 'Seg
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content with two columns -->
     <div class="main-content">
-        @if (session('success'))
-        <div class="alert alert-success" style="background: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            {{ session('success') }}
-        </div>
-        @endif
-        
-        <!-- Article Header with Background Image -->
-        <div class="article-header" style="background-image: url('{{ $article->thumbnail ? asset('storage/' . $article->thumbnail) : asset('images/default-blog.jpg') }}');">
-            <div class="article-header-overlay"></div>
-            <div class="article-header-content">
-                <h1 style="font-size: 2.5rem; margin-bottom: 10px;">{{ $article->title }}</h1>
-                
-                <div class="article-meta-white">
-                    <span>{{ $article->published_at ? $article->published_at->format('M d, Y') : $article->created_at->format('M d, Y') }}</span>
-                    <span>{{ $article->read_time }} min read</span>
-                    <span>{{ $article->views }} views</span>
-                </div>
-                
-                <div class="author-info">
-                    <img src="{{ asset('images/profile-icon.svg') }}" alt="{{ $article->user->name }}" class="author-avatar">
-                    <div>
-                        <div style="font-weight: 600;">{{ $article->user->name }}</div>
-                        <div style="font-size: 0.9rem; opacity: 0.9;">Author</div>
+        <!-- Article Column -->
+        <div class="article-column">
+            @if (session('success'))
+            <div class="alert alert-success" style="background: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                {{ session('success') }}
+            </div>
+            @endif
+            
+            <!-- Article Header with Background Image -->
+            <div class="article-header" style="background-image: url('{{ $article->thumbnail ? asset('storage/' . $article->thumbnail) : asset('images/default-blog.jpg') }}');">
+                <div class="article-header-overlay"></div>
+                <div class="article-header-content">
+                    <h1 style="font-size: 2.5rem; margin-bottom: 10px;">{{ $article->title }}</h1>
+                    
+                    <div class="article-meta-white">
+                        <span>{{ $article->published_at ? $article->published_at->format('M d, Y') : $article->created_at->format('M d, Y') }}</span>
+                        <span>{{ $article->read_time }} min read</span>
+                        <span>{{ $article->views }} views</span>
+                    </div>
+                    
+                    <div class="author-info">
+                        <img src="{{ asset('images/profile-icon.svg') }}" alt="{{ $article->user->name }}" class="author-avatar">
+                        <div>
+                            <div style="font-weight: 600;">{{ $article->user->name }}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">Author</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Article content -->
-        <div class="article-container" style="background: white; border-radius: 16px; padding: 40px; box-shadow: 0 2px 8px rgba(33,150,243,0.1);">
-            <div class="article-body">
-                {!! nl2br(e($article->body)) !!}
+            
+            <!-- Article content -->
+            <div class="article-container">
+                <div class="article-body">
+                    {!! nl2br(e($article->body)) !!}
+                </div>
+                
+                @auth
+                    @can('update', $article)
+                    <div class="action-buttons">
+                        <a href="{{ route('articles.edit', $article->id) }}" class="btn-edit-article">
+                            Edit Article
+                        </a>
+                        <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this blog post?');" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-delete-article">
+                                Delete Article
+                            </button>
+                        </form>
+                    </div>
+                    @endcan
+                @endauth
             </div>
             
-            @auth
-                @can('update', $article)
-                <div class="action-buttons">
-                    <a href="{{ route('articles.edit', $article->id) }}" class="btn-edit-article">
-                        Edit Article
-                    </a>
-                    <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this blog post?');" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-delete-article">
-                            Delete Article
-                        </button>
-                    </form>
-                </div>
-                @endcan
-            @endauth
+            <!-- Back button -->
+            <div style="margin-top: 30px;">
+                <a href="{{ url()->previous() }}" style="color: #2876E9; font-weight: 600; display: flex; align-items: center; gap: 5px; text-decoration: none;">
+                    <span>←</span> Back
+                </a>
+            </div>
         </div>
         
-        <!-- Back button -->
-        <div style="margin-top: 30px;">
-            <a href="{{ url()->previous() }}" style="color: #2876E9; font-weight: 600; display: flex; align-items: center; gap: 5px; text-decoration: none;">
-                <span>←</span> Back
-            </a>
+        <!-- Trending Column -->
+        <div class="trending-column">
+            <div class="trending-header">
+                Trending on Blogify
+            </div>
+            <div class="trending-items">
+                <!-- Trending Item 1 -->
+                <a href="#" class="trending-item">
+                    <img src="{{ asset('images/burger.jpg') }}" alt="Fast Food" class="trending-item-image">
+                    <div class="trending-item-content">
+                        <h3>Fast Food Polemic: The Truth of Burger</h3>
+                        <div class="trending-item-meta">Jun 26, 2024 • 12 min read</div>
+                    </div>
+                </a>
+                
+                <!-- Trending Item 2 -->
+                <a href="#" class="trending-item">
+                    <img src="{{ asset('images/bad-person.jpg') }}" alt="Bad Person" class="trending-item-image">
+                    <div class="trending-item-content">
+                        <h3>Fast Food Polemic: The Truth of Burger</h3>
+                        <div class="trending-item-meta">Jun 26, 2024 • 12 min read</div>
+                    </div>
+                </a>
+                
+                <!-- Trending Item 3 -->
+                <a href="#" class="trending-item">
+                    <img src="{{ asset('images/workout.jpg') }}" alt="Workout" class="trending-item-image">
+                    <div class="trending-item-content">
+                        <h3>Fast Food Polemic: The Truth of Burger</h3>
+                        <div class="trending-item-meta">Jun 26, 2024 • 12 min read</div>
+                    </div>
+                </a>
+                
+                <!-- Trending Item 4 -->
+                <a href="#" class="trending-item">
+                    <img src="{{ asset('images/countries.jpg') }}" alt="Countries" class="trending-item-image">
+                    <div class="trending-item-content">
+                        <h3>Fast Food Polemic: The Truth of Burger</h3>
+                        <div class="trending-item-meta">Jun 26, 2024 • 12 min read</div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 </div>
