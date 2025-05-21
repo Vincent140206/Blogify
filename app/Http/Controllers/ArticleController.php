@@ -98,11 +98,16 @@ class ArticleController extends Controller
         $article = Article::where('slug', $slug)
             ->with('user')
             ->firstOrFail();
-            
-        // Increment view count
+
         $article->incrementViewCount();
-        
-        return view('articles.show', compact('article'));
+
+        $trendingArticles = Article::where('id', '!=', $article->id)
+            ->whereNotNull('published_at')
+            ->orderBy('views', 'desc')
+            ->limit(4)
+            ->get();
+
+        return view('articles.show', compact('article', 'trendingArticles'));
     }
 
     /**
@@ -172,4 +177,5 @@ class ArticleController extends Controller
         return redirect()->route('articles.my-blogs')
             ->with('success', 'Blog post deleted successfully!');
     }
+
 }

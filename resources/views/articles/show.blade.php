@@ -2,19 +2,31 @@
 
 @section('content')
 <style>
-    body, html { height: 100%; width: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-    .dashboard-container { display: flex; height: 100vh; }
+    body,
+    html {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .dashboard-container {
+        display: flex;
+        height: 100vh;
+    }
+
     .sidebar {
         width: 90px;
         background: #2876E9;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; 
+        justify-content: flex-start;
         align-items: flex-start;
         padding: 30px 20px;
         transition: width 0.3s ease;
         overflow: hidden;
-        height: 100vh; 
+        height: 100vh;
     }
 
     .sidebar:hover {
@@ -22,17 +34,20 @@
         align-items: flex-start;
         padding-left: 20px;
     }
+
     .sidebar-top {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
     }
+
     .sidebar img.logo,
     .sidebar img.profile {
         width: 48px;
         transition: transform 0.3s;
     }
+
     .sidebar-menu {
         display: flex;
         flex-direction: column;
@@ -42,10 +57,12 @@
         transition: opacity 0.3s ease;
         pointer-events: none;
     }
+
     .sidebar:hover .sidebar-menu {
         opacity: 1;
         pointer-events: auto;
     }
+
     .sidebar-menu a {
         color: white;
         text-decoration: none;
@@ -55,10 +72,12 @@
         align-items: center;
         margin-bottom: 10px
     }
+
     .sidebar-menu a:hover {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 15px
     }
+
     .sidebar-bottom {
         margin-top: auto;
         width: 100%;
@@ -66,37 +85,44 @@
         box-sizing: border-box;
         color: white;
     }
+
     .divider {
         border: none;
         border-top: 1px solid white;
         margin-bottom: 12px;
         opacity: 0.6;
     }
+
     .profile-info {
         display: flex;
         align-items: center;
         gap: 12px;
     }
+
     .profile {
         width: 48px;
         height: 48px;
         border-radius: 50%;
         object-fit: cover;
     }
+
     .user-details {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
+
     .user-name {
         font-weight: bold;
         font-size: 1rem;
     }
+
     .user-email {
         font-size: 0.85rem;
         opacity: 0.8;
     }
+
     .logout-btn {
         background: transparent;
         border: 1.5px solid white;
@@ -107,14 +133,17 @@
         cursor: pointer;
         transition: background-color 0.2s, color 0.2s;
     }
+
     .logout-btn:hover {
         background-color: white;
-        color: #2876E9; 
+        color: #2876E9;
     }
+
     .sidebar img.profile {
         width: 48px;
         border-radius: 50%;
     }
+
     .sidebar-logo {
         display: flex;
         align-items: center;
@@ -122,6 +151,7 @@
         padding-left: 0;
         width: 100%;
     }
+
     .logo-text {
         color: white;
         font-size: 1.3rem;
@@ -130,9 +160,11 @@
         opacity: 0;
         transition: opacity 0.3s ease;
     }
+
     .sidebar:hover .logo-text {
         opacity: 1;
     }
+
     .sidebar-menu a.active {
         background: rgba(255, 255, 255, 0.4);
         font-weight: bold;
@@ -142,11 +174,13 @@
         padding: 12px 10px;
         text-decoration: none;
     }
+
     .sidebar-menu a .menu-icon {
         width: 20px;
         height: 16px;
         margin-right: 8px;
     }
+
     .logout-btn {
         background: none;
         border: none;
@@ -156,11 +190,12 @@
         align-items: center;
         justify-content: center;
     }
+
     .logout-btn img {
         width: 24px;
         height: 24px;
     }
-    
+
     /* Main content container with grid layout */
     .main-content {
         flex: 1;
@@ -171,7 +206,7 @@
         grid-template-columns: 2fr 1fr;
         gap: 30px;
     }
-    
+
     /* Comment section styles */
     .comments-container {
         background-color: #ebebeb;
@@ -179,22 +214,22 @@
         padding: 20px;
         margin-top: 30px;
     }
-    
+
     .comment-item {
         margin-bottom: 20px;
         border-bottom: 1px solid #d0d0d0;
         padding-bottom: 20px;
     }
-    
+
     .comment-item:last-child {
         border-bottom: none;
         margin-bottom: 0;
     }
-    
+
     .comment-actions {
         position: relative;
     }
-    
+
     .comment-menu-toggle {
         background: none;
         border: none;
@@ -206,20 +241,21 @@
         padding: 0;
         line-height: 0.5;
     }
-    
+
     .comment-menu {
         position: absolute;
         right: 0;
         top: 100%;
         background: white;
         border-radius: 6px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         display: none;
         z-index: 10;
         width: 120px;
     }
-    
-    .comment-menu a, .comment-menu button {
+
+    .comment-menu a,
+    .comment-menu button {
         display: block;
         padding: 10px 15px;
         text-decoration: none;
@@ -230,26 +266,26 @@
         border: none;
         cursor: pointer;
     }
-    
+
     .comment-menu button {
         color: #f44336;
     }
-    
+
     /* Article column */
     .article-column {
         grid-column: 1;
     }
-    
+
     /* Trending column */
     .trending-column {
         grid-column: 2;
         background-color: white;
         border-radius: 16px;
         padding: 0;
-        box-shadow: 0 2px 8px rgba(33,150,243,0.1);
+        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
         height: fit-content;
     }
-    
+
     .trending-header {
         background-color: #34558b;
         color: white;
@@ -259,11 +295,11 @@
         font-size: 1.8rem;
         font-weight: bold;
     }
-    
+
     .trending-items {
         padding: 20px;
     }
-    
+
     .trending-item {
         display: flex;
         align-items: center;
@@ -272,24 +308,24 @@
         text-decoration: none;
         color: inherit;
     }
-    
+
     .trending-item:last-child {
         margin-bottom: 0;
     }
-    
+
     .trending-item-image {
         width: 120px;
         height: 80px;
         border-radius: 8px;
         object-fit: cover;
     }
-    
+
     .trending-item-content h3 {
         margin: 0 0 8px 0;
         font-size: 1.1rem;
         color: #222;
     }
-    
+
     .trending-item-meta {
         font-size: 0.9rem;
         color: #777;
@@ -300,24 +336,29 @@
         font-size: 1.1rem;
         color: #333;
     }
+
     .article-body p {
         margin-bottom: 20px;
     }
+
     .article-body img {
         max-width: 100%;
         border-radius: 8px;
         margin: 20px 0;
     }
+
     .article-body h2 {
         margin-top: 30px;
         margin-bottom: 15px;
         font-size: 1.8rem;
     }
+
     .article-body h3 {
         margin-top: 25px;
         margin-bottom: 15px;
         font-size: 1.5rem;
     }
+
     .article-header {
         position: relative;
         height: 400px;
@@ -328,34 +369,39 @@
         display: flex;
         align-items: flex-end;
     }
+
     .article-header-overlay {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
         border-radius: 16px;
     }
+
     .article-header-content {
         position: relative;
         padding: 40px;
         width: 100%;
         color: white;
     }
+
     .article-meta-white {
-        color: rgba(255,255,255,0.8);
+        color: rgba(255, 255, 255, 0.8);
         display: flex;
         gap: 20px;
         margin-top: 15px;
         font-size: 1rem;
     }
+
     .author-info {
         display: flex;
         align-items: center;
         gap: 10px;
         margin-top: 20px;
     }
+
     .author-avatar {
         width: 50px;
         height: 50px;
@@ -363,11 +409,13 @@
         object-fit: cover;
         border: 2px solid white;
     }
+
     .action-buttons {
         margin-top: 30px;
         display: flex;
         gap: 15px;
     }
+
     .btn-edit-article {
         background: #ff9800;
         color: white;
@@ -382,6 +430,7 @@
         align-items: center;
         gap: 8px;
     }
+
     .btn-delete-article {
         background: #f44336;
         color: white;
@@ -395,17 +444,16 @@
         align-items: center;
         gap: 8px;
     }
-    
+
     .article-container {
         background: white;
         border-radius: 16px;
-        padding: 40px;
-        box-shadow: 0 2px 8px rgba(33,150,243,0.1);
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
     }
 </style>
 
 <div class="dashboard-container">
-    <!-- Sidebar (Same as before) -->
     <div class="sidebar">
         <div class="sidebar-logo">
             <img src="{{ asset('images/Blogify.png') }}" alt="Logo" class="logo">
@@ -460,19 +508,19 @@
                 {{ session('success') }}
             </div>
             @endif
-            
+
             <!-- Article Header with Background Image -->
             <div class="article-header" style="background-image: url('{{ $article->thumbnail ? asset('storage/' . $article->thumbnail) : asset('images/default-blog.jpg') }}');">
                 <div class="article-header-overlay"></div>
                 <div class="article-header-content">
                     <h1 style="font-size: 2.5rem; margin-bottom: 10px;">{{ $article->title }}</h1>
-                    
+
                     <div class="article-meta-white">
                         <span>{{ $article->published_at ? $article->published_at->format('M d, Y') : $article->created_at->format('M d, Y') }}</span>
                         <span>{{ $article->read_time }} min read</span>
                         <span>{{ $article->views }} views</span>
                     </div>
-                    
+
                     <div class="author-info">
                         <img src="{{ asset('images/profile-icon.svg') }}" alt="{{ $article->user->name }}" class="author-avatar">
                         <div>
@@ -482,35 +530,35 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Article content -->
             <div class="article-container">
                 <div class="article-body">
                     {!! nl2br(e($article->body)) !!}
                 </div>
-                
+
                 @auth
-                    @can('update', $article)
-                    <div class="action-buttons">
-                        <a href="{{ route('articles.edit', $article->id) }}" class="btn-edit-article">
-                            Edit Article
-                        </a>
-                        <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this blog post?');" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-delete-article">
-                                Delete Article
-                            </button>
-                        </form>
-                    </div>
-                    @endcan
+                @can('update', $article)
+                <div class="action-buttons">
+                    <a href="{{ route('articles.edit', $article->id) }}" class="btn-edit-article">
+                        Edit Article
+                    </a>
+                    <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this blog post?');" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-delete-article">
+                            Delete Article
+                        </button>
+                    </form>
+                </div>
+                @endcan
                 @endauth
             </div>
-            
+
             <!-- Comments section -->
             <div class="comments-container" style="background-color: #ebebeb; border-radius: 12px; padding: 20px; margin-top: 30px;">
                 <h2 style="margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; font-weight: bold;">Comment ({{ $article->comments->count() ?? 10 }})</h2>
-                
+
                 <!-- Add new comment form -->
                 <div style="background-color: white; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
                     <form action="{{ route('comments.store', $article->id) }}" method="POST">
@@ -557,7 +605,7 @@
                 </div>
                 @endforeach
             </div>
-            
+
             <!-- Back button -->
             <div style="margin-top: 30px;">
                 <a href="{{ url()->previous() }}" style="color: #2876E9; font-weight: 600; display: flex; align-items: center; gap: 5px; text-decoration: none;">
@@ -565,48 +613,31 @@
                 </a>
             </div>
         </div>
-        
-        <!-- Trending Column -->
+
         <div class="trending-column">
             <div class="trending-header">
                 Trending on Blogify
             </div>
             <div class="trending-items">
-                <!-- Trending Item 1 -->
-                <a href="#" class="trending-item">
-                    <img src="{{ asset('images/burger.jpg') }}" alt="Fast Food" class="trending-item-image">
+                @forelse($trendingArticles as $trendingArticle)
+                <a href="{{ route('articles.show', $trendingArticle->slug) }}" class="trending-item">
+                    <img src="{{ $trendingArticle->thumbnail ? asset('storage/' . $trendingArticle->thumbnail) : asset('images/default-blog.jpg') }}"
+                        alt="{{ $trendingArticle->title }}" class="trending-item-image">
                     <div class="trending-item-content">
-                        <h3>Fast Food Polemic: The Truth of Burger</h3>
-                        <div class="trending-item-meta">Jun 26, 2024 • 12 min read</div>
+                        <h3>{{ $trendingArticle->title }}</h3>
+                        <div class="trending-item-meta">
+                            {{ $trendingArticle->published_at->format('M d, Y') }} • {{ $trendingArticle->read_time }} min read
+                        </div>
                     </div>
                 </a>
-                
-                <!-- Trending Item 2 -->
-                <a href="#" class="trending-item">
-                    <img src="{{ asset('images/bad-person.jpg') }}" alt="Bad Person" class="trending-item-image">
+                @empty
+
+                <div class="trending-item">
                     <div class="trending-item-content">
-                        <h3>Fast Food Polemic: The Truth of Burger</h3>
-                        <div class="trending-item-meta">Jun 26, 2024 • 12 min read</div>
+                        <h3>No trending articles available</h3>
                     </div>
-                </a>
-                
-                <!-- Trending Item 3 -->
-                <a href="#" class="trending-item">
-                    <img src="{{ asset('images/workout.jpg') }}" alt="Workout" class="trending-item-image">
-                    <div class="trending-item-content">
-                        <h3>Fast Food Polemic: The Truth of Burger</h3>
-                        <div class="trending-item-meta">Jun 26, 2024 • 12 min read</div>
-                    </div>
-                </a>
-                
-                <!-- Trending Item 4 -->
-                <a href="#" class="trending-item">
-                    <img src="{{ asset('images/countries.jpg') }}" alt="Countries" class="trending-item-image">
-                    <div class="trending-item-content">
-                        <h3>Fast Food Polemic: The Truth of Burger</h3>
-                        <div class="trending-item-meta">Jun 26, 2024 • 12 min read</div>
-                    </div>
-                </a>
+                </div>
+                @endforelse
             </div>
         </div>
     </div>
@@ -614,26 +645,22 @@
 @endsection
 
 <script>
-    // Toggle comment menu on click
     document.addEventListener('DOMContentLoaded', function() {
         const menuButtons = document.querySelectorAll('.comment-menu-toggle');
-        
+
         menuButtons.forEach(button => {
             button.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const menu = this.nextElementSibling;
-                
-                // Close all other menus
+
                 document.querySelectorAll('.comment-menu').forEach(m => {
                     if (m !== menu) m.style.display = 'none';
                 });
-                
-                // Toggle this menu
+
                 menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
             });
         });
-        
-        // Close menus when clicking elsewhere
+
         document.addEventListener('click', function() {
             document.querySelectorAll('.comment-menu').forEach(menu => {
                 menu.style.display = 'none';
@@ -641,13 +668,10 @@
         });
     });
 
-    // Edit comment function (placeholder - would need to be implemented)
     function editComment(commentId) {
-        // Example implementation - would need to be adjusted for actual usage
         const commentItem = event.target.closest('.comment-item');
         const commentText = commentItem.querySelector('div > div:nth-child(2) > div:nth-child(3)').textContent.trim();
-        
-        // Replace the comment text with an editable input
+
         const commentContent = commentItem.querySelector('div > div:nth-child(2) > div:nth-child(3)');
         commentContent.innerHTML = `
             <form action="/comments/${commentId}" method="POST" style="display: flex; gap: 10px;">
@@ -658,16 +682,14 @@
                 <button type="button" onclick="cancelEdit(this, '${commentText}')" style="background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 4px; padding: 8px 12px; cursor: pointer;">Cancel</button>
             </form>
         `;
-        
-        // Close the menu
+
         document.querySelectorAll('.comment-menu').forEach(menu => {
             menu.style.display = 'none';
         });
-        
+
         event.preventDefault();
     }
-    
-    // Cancel edit function
+
     function cancelEdit(button, originalText) {
         const form = button.closest('form');
         const commentContent = form.parentElement;
