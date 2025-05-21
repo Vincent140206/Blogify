@@ -15,17 +15,14 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f4f6f8;
-            padding: 2rem;
             color: #333;
         }
 
         .container {
-            max-width: 800px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            padding: 2rem;
         }
 
         h1, h2, h3 {
@@ -76,17 +73,7 @@
 <body>
 
     <div class="container">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-error">
-                {{ session('error') }}
-            </div>
-        @endif
+        
 
         @yield('content')
     </div>
