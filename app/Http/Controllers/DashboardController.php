@@ -17,7 +17,7 @@ class DashboardController extends Controller
                             ->orWhere('body', 'like', "%{$search}%");
             })
             ->latest('published_at')
-            ->paginate(6);
+            ->paginate(12);
 
         return view('dashboard', compact('articles'));
     }

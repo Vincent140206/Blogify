@@ -98,7 +98,7 @@ class Article extends Model
         return $query->where('user_id', $userId);
     }
 
-     public static function getTrending($currentArticleId = null, $limit = 4)
+     public static function getTrending($currentArticleId = null, $limit = 6)
     {
         $query = self::published();
         
