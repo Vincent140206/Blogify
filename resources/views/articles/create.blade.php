@@ -168,7 +168,7 @@
         padding: 40px 40px 0 40px;
         overflow-y: auto; 
     }
-    .header-row { display: flex; justify-content: space-between; align-items: center; }
+    .header-row { display: flex; justify-content: center; align-items: center; margin-bottom: 15px}
     .header-row h1 { font-size: 2.5rem; margin: 0; }
     .header-row-2 {
         display: flex;
@@ -241,9 +241,64 @@
         .main-content { padding: 20px 5vw 0 5vw; }
         .articles-grid { gap: 18px; }
     }
+
+    .upload-area {
+        position: relative;
+        width: 60%;
+        max-width: 480px;      
+        padding-top: 270px;     
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        background-color: #e0e0e0;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 0 auto;
+        overflow: hidden;
+        display: flex; 
+    }
+
+    .upload-area p {
+        z-index: 2;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .upload-area:hover {
+        background-color: #d0d0d0;
+    }
+
+    #thumbnail {
+        display: none; 
+    }
+
+    .upload-area img,
+    .upload-area input[type="file"] {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .upload-area input[type="file"] {
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    .upload-area img.default-icon {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+
 </style>
 <div class="dashboard-container">
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-logo">
             <img src="{{ asset('images/Blogify.png') }}" alt="Logo" class="logo">
@@ -255,7 +310,7 @@
                 <img src="{{ asset('images/Dashboard_icon.png') }}" class="menu-icon" />
                 Dashboard
             </a>
-            <a href="#" class="{{ Request::is('blogs*') ? 'active' : '' }}">
+            <a href="{{ route('articles.my-blogs') }}" class="{{ Request::is('my-blogs*') ? 'active' : '' }}">
                 <img src="{{ asset('images/Myblog_icon.png') }}" class="menu-icon" />
                 My Blogs
             </a>
@@ -283,31 +338,116 @@
                 </form>
             </div>
         </div>
-
     </div>
+
     <!-- Main Content -->
     <div class="main-content">
         <div class="header-row">
-            <h1>Blog Articles</h1>
+            <h1>Create New Blog</h1>
         </div>
-        <a href="{{ route('articles.create') }}" class="create-btn">
-            <span style="font-size: 1.3rem;">➕</span> Create Article
-        </a>
+        <hr style="border: none; height: 2px; background-color: #ccc;">
+        @if ($errors->any())
+        <div class="alert alert-danger" style="background: #ffebee; color: #d32f2f; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <ul style="margin: 0; padding-left: 20px;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
-        <div class="header-row-2">
-    <span class="subheader">News for your daily needs!</span>
-    <form class="search-bar" method="GET">
-        <span style="font-size:1.3rem; color:#888;">&#128269;</span>
-        <input type="text" name="q" placeholder="Search" value="{{ request('q') }}">
-    </form>
-</div>
-        <div class="articles-grid">
-            <div class="article-card">
-                <div class="article-content">
-                    
+        <div class="create-form-container" style="background: white; margin-top: 20px; border-radius: 16px; padding: 30px; box-shadow: 0 2px 8px rgba(33,150,243,0.1);">
+            <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Thumbnail</label>
+                    <div class="upload-area" id="upload-area">
+                    <img id="thumbnail-preview-img" src="{{ asset('images/Upload_Image.png') }}" class="default-icon" alt="Thumbnail Preview">
+                        <input type="file" name="thumbnail" id="thumbnail" accept="image/*">
+                    </div>
                 </div>
-            </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="title" style="display: block; margin-bottom: 8px; font-weight: 600;">Blog Title</label>
+                    <input type="text" name="title" id="title" class="form-control" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;" value="{{ old('title') }}" required>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="body" style="display: block; margin-bottom: 8px; font-weight: 600;">Blog Content</label>
+                    <textarea name="body" id="body" class="form-control" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; min-height: 300px;" required>{{ old('body') }}</textarea>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="read_time" style="display: block; margin-bottom: 8px; font-weight: 600;">Read Time (minutes)</label>
+                    <input type="number" name="read_time" id="read_time" class="form-control" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;" value="{{ old('read_time') }}" min="1">
+                    <small style="color: #666; display: block; margin-top: 5px;">Leave empty to calculate automatically based on content length</small>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <div style="display: flex; align-items: center;">
+                        <input type="checkbox" name="is_published" id="is_published" value="1" style="margin-right: 10px;" {{ old('is_published', true) ? 'checked' : '' }}>
+                        <label for="is_published" style="font-weight: 600;">Publish immediately</label>
+                    </div>
+                </div>
+                
+                <div class="form-buttons" style="display: flex; gap: 15px;">
+                    <button type="submit" class="btn-primary" style="background: #2876E9; color: white; border: none; border-radius: 24px; padding: 12px 28px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                        Create Blog Post
+                    </button>
+                    <a href="{{ route('articles.my-blogs') }}" class="btn-secondary" style="background: #e0e0e0; color: #444; border: none; border-radius: 24px; padding: 12px 28px; font-size: 1.1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center;">
+                        Cancel
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('thumbnail');
+    const previewImg = document.getElementById('thumbnail-preview-img');
+
+    // Click upload area untuk buka file dialog
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    // Preview gambar saat pilih file
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                previewImg.classList.remove('default-icon'); 
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Drag and drop style dan preview
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.style.backgroundColor = '#cfcfcf';
+    });
+    uploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        uploadArea.style.backgroundColor = '#e0e0e0';
+    });
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.style.backgroundColor = '#e0e0e0';
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            fileInput.files = e.dataTransfer.files;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                previewImg.classList.remove('default-icon');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+</script>
 @endsection
