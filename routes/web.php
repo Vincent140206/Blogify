@@ -49,13 +49,14 @@ Route::middleware(['auth'])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
     // Blog
     Route::resource('blog', BlogController::class);
-    Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create'); // opsional, karena sudah ditangani resource
+    Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create'); 
 
     // Akun pengguna
     Route::get('/delete-account', [UserController::class, 'showDeleteForm'])->name('account.delete.form');

@@ -222,6 +222,11 @@
         gap: 32px;
     }
     .article-card {
+        text-decoration: none !important;
+        color: inherit;
+        width: 100%;
+        height: 100%;
+        padding: 0;
         background: #fff;
         border-radius: 16px;
         box-shadow: 0 2px 8px rgba(33,150,243,0.07);
@@ -231,7 +236,7 @@
         display: flex;
         flex-direction: column;
     }
-    .article-card:hover { box-shadow: 0 4px 16px rgba(33,150,243,0.13); }
+    .article-card:hover { text-decoration: none !important; box-shadow: 0 4px 16px rgba(33,150,243,0.13); }
     .article-img { width: 100%; height: 180px; object-fit: cover; }
     .article-content { padding: 18px 18px 10px 18px; }
     .article-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 6px; }
@@ -295,18 +300,37 @@
         </a>
 
         <div class="header-row-2">
-    <span class="subheader">News for your daily needs!</span>
-    <form class="search-bar" method="GET">
-        <span style="font-size:1.3rem; color:#888;">&#128269;</span>
-        <input type="text" name="q" placeholder="Search" value="{{ request('q') }}">
-    </form>
-</div>
+            <span class="subheader">News for your daily needs!</span>
+            <form class="search-bar" method="GET">
+                <span style="font-size:1.3rem; color:#888;">&#128269;</span>
+                <input type="text" name="q" placeholder="Search" value="{{ request('q') }}">
+            </form>
+        </div>
         <div class="articles-grid">
-            <div class="article-card">
-                <div class="article-content">
+            @foreach($articles as $article)
+                <a href="{{ route('articles.show', $article->slug) }}" class="article-card">
+                    @if($article->thumbnail)
+                        <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->title }}" class="article-img">
+                    @else
+                        <img src="{{ asset('images/article-placeholder.jpg') }}" alt="Article Image" class="article-img">
+                    @endif
                     
-                </div>
-            </div>
+                    <div class="article-content">
+                        <h2 class="article-title">{{ $article->title }}</h2>
+                        <p class="article-author">By {{ $article->user->name }}</p>
+                        
+                        <div class="article-meta-group">
+                            <span class="article-date">{{ $article->created_at->format('M d, Y') }}</span>
+                            @if($article->views)
+                                <span class="article-views">{{ number_format($article->views) }} views</span>
+                            @endif
+                            @if($article->read_time)
+                                <span class="article-read-time">{{ $article->read_time }} min read</span>
+                            @endif
+                        </div>
+                    </div>
+                </a>
+            @endforeach
         </div>
     </div>
 </div>

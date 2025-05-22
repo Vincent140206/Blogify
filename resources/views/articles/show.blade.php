@@ -414,9 +414,13 @@
         margin-top: 30px;
         display: flex;
         gap: 15px;
+        flex-direction: row;
+        align-items: center;
     }
 
-    .btn-edit-article {
+    .btn-edit-article,
+    .btn-delete-article {
+        height: 40px;
         background: #ff9800;
         color: white;
         border: none;
@@ -425,24 +429,16 @@
         font-size: 1rem;
         font-weight: 500;
         cursor: pointer;
-        text-decoration: none;
-        display: inline-flex;
         align-items: center;
+        justify-content: center;
+        text-decoration: none;
         gap: 8px;
+        margin: 0;
+        vertical-align: middle;
     }
 
     .btn-delete-article {
         background: #f44336;
-        color: white;
-        border: none;
-        border-radius: 24px;
-        padding: 10px 24px;
-        font-size: 1rem;
-        font-weight: 500;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
     }
 
     .article-container {
@@ -540,9 +536,9 @@
                 @auth
                 @can('update', $article)
                 <div class="action-buttons">
-                    <a href="{{ route('articles.edit', $article->id) }}" class="btn-edit-article">
+                    <button onclick="location.href='{{ route('articles.edit', $article->id) }}';" class="btn-edit-article">
                         Edit Article
-                    </a>
+                    </button>
                     <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this blog post?');" style="display: inline;">
                         @csrf
                         @method('DELETE')
@@ -551,6 +547,7 @@
                         </button>
                     </form>
                 </div>
+
                 @endcan
                 @endauth
             </div>
@@ -620,7 +617,7 @@
             </div>
             <div class="trending-items">
                 @forelse($trendingArticles as $trendingArticle)
-                <a href="{{ route('articles.show', $trendingArticle->slug) }}" class="trending-item">
+                <a href="{{ route('articles.show', $trendingArticle->slug ) }}" class="trending-item">
                     <img src="{{ $trendingArticle->thumbnail ? asset('storage/' . $trendingArticle->thumbnail) : asset('images/default-blog.jpg') }}"
                         alt="{{ $trendingArticle->title }}" class="trending-item-image">
                     <div class="trending-item-content">

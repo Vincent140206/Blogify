@@ -4,11 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Article;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard');
+         $articles = Article::with('user')
+            ->published()
+            ->when($request->search, function($query, $search) {
+                return $query->where('title', 'like', "%{$search}%")
+                            ->orWhere('body', 'like', "%{$search}%");
+            })
+            ->latest('published_at')
+            ->paginate(6);
+
+        return view('dashboard', compact('articles'));
     }
 }
