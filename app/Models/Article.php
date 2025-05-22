@@ -98,4 +98,15 @@ class Article extends Model
         return $query->where('user_id', $userId);
     }
 
+     public static function getTrending($currentArticleId = null, $limit = 4)
+    {
+        $query = self::published();
+        
+        if ($currentArticleId) {
+            $query->where('id', '!=', $currentArticleId);
+        }
+        
+        return $query->inRandomOrder()->limit($limit)->get();
+    }
+
 }
