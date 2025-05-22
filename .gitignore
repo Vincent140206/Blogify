@@ -1,7 +1,5 @@
 # Laravel specific
 /public/mix-manifest.json
-/public/js
-/public/css
 
 # Laravel Telescope (kalau pakai)
 storage/telescope
@@ -17,9 +15,6 @@ database/*.sqlite
 
 # Composer vendor binaries
 /vendor/bin
-
-# User-uploaded files (kalau disimpan di storage)
-storage/app/public
 
 # Laravel Valet
 .valet
