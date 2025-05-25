@@ -8,6 +8,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MyArticlesController;
+use App\Http\Controllers\SettingsController;
 
 // Redirect root ke login
 Route::get('/', function () {
@@ -87,6 +88,16 @@ Route::middleware(['auth'])->group(function () {
     
     // Delete a comment
     Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // Settings
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.update-profile');
+    Route::post('/settings/avatar', [SettingsController::class, 'uploadAvatar'])->name('settings.upload-avatar');
+    Route::delete('/settings/avatar', [SettingsController::class, 'removeAvatar'])->name('settings.remove-avatar');
+    Route::put('/settings/email', [SettingsController::class, 'updateEmail'])->name('settings.update-email');
+    Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.update-password');
+    Route::post('/settings/logout-devices', [SettingsController::class, 'logoutAllDevices'])->name('settings.logout-all-devices');
+    Route::delete('/settings/account', [SettingsController::class, 'deleteAccount'])->name('settings.delete-account');
 
 });
 
