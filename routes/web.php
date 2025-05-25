@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\MyArticlesController;
 
 // Redirect root ke login
 Route::get('/', function () {
@@ -91,3 +91,4 @@ Route::middleware(['auth'])->group(function () {
 // Blog
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');
+Route::get('/my-blogs', [MyArticlesController::class, 'index']) ->name('articles.my-blogs') ->middleware('auth');
