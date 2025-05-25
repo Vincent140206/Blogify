@@ -18,7 +18,7 @@
         <!-- Stats Info -->
         <div class="stats-info">
             <h3>Your Blog Statistics</h3>
-            <p>You have {{ $articles->count() }} published articles</p>
+            <p>You have {{ $articles->count() }} articles</p>
         </div>
 
         <div class="header-row-2">

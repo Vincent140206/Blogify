@@ -4,51 +4,8 @@
 <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 
 <div class="dashboard-container">
-    <div class="sidebar">
-        <div class="sidebar-logo">
-            <img src="{{ asset('images/Blogify.png') }}" alt="Logo" class="logo">
-            <span class="logo-text">Blogify</span>
-        </div>
-
-        <div class="sidebar-menu">
-            <a href="{{ route('dashboard') }}" class="{{ Request::is('dashboard') ? 'active' : '' }}">
-                <img src="{{ asset('images/Dashboard_icon.png') }}" class="menu-icon" />
-                Dashboard
-            </a>
-            <a href="{{ route('articles.my-blogs') }}" class="{{ request()->routeIs('articles.my-blogs') ? 'active' : '' }}">
-                <img src="{{ asset('images/Myblog_icon.png') }}" class="menu-icon" />
-                My Blogs
-            </a>
-
-            <a href="{{ route('settings.index') }}" class="{{ Request::is('settings*') ? 'active' : '' }}">
-                <img src="{{ asset('images/Settings_icon.png') }}" class="menu-icon" />
-                Settings
-            </a>
-
-        </div>
-
-        <div class="sidebar-bottom">
-            <hr class="divider" />
-            <div class="profile-info">
-                <a href="{{ route('profile') }}">
-                    <img src="{{ Auth::user()->profile_photo_url }}" alt="Profile" class="profile" />
-                </a>
-                <div class="sidebar-content">
-                    <div class="user-details">
-                        <div class="user-name">{{ Auth::user()->name }}</div>
-                        <div class="user-email">{{ Auth::user()->email }}</div>
-                    </div>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="logout-btn" style="background: none; border: none; padding: 0; cursor: pointer;">
-                            <img src="{{ asset('images/Logout.png') }}" style="width: 24px; height: 24px;">
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <!-- Sidebar -->
+    @include('partials.sidebar')
 
     <!-- Main Content with two columns -->
     <div class="main-content">
@@ -73,12 +30,16 @@
                     </div>
 
                     <div class="author-info">
-                        <img src="{{ asset('images/profile-icon.svg') }}" alt="{{ $article->user->name }}" class="author-avatar">
+                        <img
+                            src="{{ $article->user->photo_profile ? asset('storage/' . $article->user->photo_profile) : asset('images/default-avatar.jpg') }}"
+                            alt="{{ $article->user->name }}"
+                            class="author-avatar">
                         <div>
                             <div style="font-weight: 600;">{{ $article->user->name }}</div>
                             <div style="font-size: 0.9rem; opacity: 0.9;">Author</div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -127,7 +88,11 @@
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                         <div style="display: flex; gap: 15px;">
                             <div style="width: 50px; height: 50px; border-radius: 50%; background-color: #d5d5d5; overflow: hidden;">
-                                <img src="{{ asset('images/profile-icon.svg') }}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img
+                                    src="{{ $comment->user && $comment->user->photo_profile ? asset('storage/' . $comment->user->photo_profile) : asset('images/default-avatar.jpg') }}"
+                                    alt="{{ $comment->user->name ?? 'User' }}"
+                                    class="author-avatar">
+
                             </div>
                             <div>
                                 <div style="font-weight: bold; margin-bottom: 5px;">
@@ -196,12 +161,12 @@
 
 <!-- Modal Background -->
 <div id="confirm-modal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <h2>Discard Blog?</h2>
-    <p>If you discard this blog, you won't be able to recover it.</p>
-    <button id="confirm-yes" class="btn-confirm">Yes, Delete</button>
-    <button id="confirm-no" class="btn-cancel">Cancel</button>
-  </div>
+    <div class="modal-content">
+        <h2>Discard Blog?</h2>
+        <p>If you discard this blog, you won't be able to recover it.</p>
+        <button id="confirm-yes" class="btn-confirm">Yes, Delete</button>
+        <button id="confirm-no" class="btn-cancel">Cancel</button>
+    </div>
 </div>
 
 @endsection
@@ -270,7 +235,7 @@
         }
 
         btnYes.addEventListener('click', () => {
-            if(formToSubmit) formToSubmit.submit();
+            if (formToSubmit) formToSubmit.submit();
             modal.style.display = 'none';
         });
 

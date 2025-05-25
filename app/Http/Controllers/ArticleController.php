@@ -11,7 +11,6 @@ class ArticleController extends Controller
 {
     public function __construct()
     {
-        // Allow all users to view articles, but require auth for other actions
         $this->middleware('auth')->except(['index', 'show']);
     }
     
@@ -27,7 +26,7 @@ class ArticleController extends Controller
                             ->orWhere('body', 'like', "%{$search}%");
             })
             ->latest('published_at')
-            ->paginate(6);
+            ->paginate(100);
             
         return view('articles.index', compact('articles'));
     }

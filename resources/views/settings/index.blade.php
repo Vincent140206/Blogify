@@ -120,7 +120,7 @@
                     <h4>Log out</h4>
                     <p>Log out from this device</p>
                 </div>
-                <form method="POST" action="{{ route('settings.logout-all-devices') }}" style="display: inline;">
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                     @csrf
                     <button type="submit" class="btn btn-secondary">Log out</button>
                 </form>
