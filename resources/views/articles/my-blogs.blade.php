@@ -12,13 +12,13 @@
         justify-content: flex-start; 
         align-items: flex-start;
         padding: 30px 20px;
-        transition: width 0.3s ease;
+        transition: width 0.3s ease, padding 0.3s ease;
         overflow: hidden;
         height: 100vh; 
     }
 
     .sidebar:hover {
-        width: 280px;
+        width: 330px;
         align-items: flex-start;
         padding-left: 20px;
     }
@@ -167,6 +167,7 @@
         background: #f8f8f8;
         padding: 40px 40px 0 40px;
         overflow-y: auto; 
+        position: relative;
     }
     .header-row { display: flex; justify-content: space-between; align-items: center; }
     .header-row h1 { font-size: 2.5rem; margin: 0; }
@@ -177,6 +178,8 @@
         gap: 20px;
     }
     .create-btn {
+        text-decoration: none;
+        margin: 10px 10px;
         background: #2876E9;
         color: #fff;
         border: none;
@@ -189,6 +192,9 @@
         align-items: center;
         gap: 8px;
         transition: background 0.2s;
+        width: fit-content;
+        top: 0px;
+        left: 0%;
     }
     .create-btn:hover { background: #1565c0; }
     .subheader {
@@ -244,7 +250,7 @@
     .article-meta { color: #888; font-size: 0.95rem; }
     .no-articles {
         text-align: center;
-        padding: 60px 20px;
+        padding-top: 20px;
         color: #666;
     }
     .no-articles h3 {
@@ -319,15 +325,14 @@
                 </form>
             </div>
         </div>
-
     </div>
     <!-- Main Content -->
     <div class="main-content">
         <div class="header-row">
-            <h1>My Blog Articles</h1>
+            <h1>My Blogs</h1>
         </div>
         <a href="{{ route('articles.create') }}" class="create-btn">
-            <span style="font-size: 1.3rem;">➕</span> Create Article
+            Create Article
         </a>
 
         <!-- Stats Info -->
@@ -376,7 +381,7 @@
                 <h3>No Articles Yet</h3>
                 <p>You haven't published any articles yet. Start creating your first blog post!</p>
                 <a href="{{ route('articles.create') }}" class="create-btn">
-                    <span style="font-size: 1.3rem;">➕</span> Create Your First Article
+                    Create Your First Article
                 </a>
             </div>
         @endif

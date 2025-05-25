@@ -1,39 +1,53 @@
-
 @extends('layouts.app')
 
 @section('content')
 <style>
-    body, html { height: 100%; width: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-    .dashboard-container { display: flex; height: 100vh; }
+    body,
+    html {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .dashboard-container {
+        display: flex;
+        height: 100vh;
+    }
+
     .sidebar {
         width: 90px;
         background: #2876E9;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; 
+        justify-content: flex-start;
         align-items: flex-start;
         padding: 30px 20px;
         transition: width 0.3s ease;
         overflow: hidden;
-        height: 100vh; 
+        height: 100vh;
     }
 
     .sidebar:hover {
-        width: 280px;
+        width: 300px;
         align-items: flex-start;
         padding-left: 20px;
     }
+
     .sidebar-top {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
     }
+
     .sidebar img.logo,
     .sidebar img.profile {
         width: 48px;
         transition: transform 0.3s;
     }
+
     .sidebar-menu {
         display: flex;
         flex-direction: column;
@@ -43,10 +57,12 @@
         transition: opacity 0.3s ease;
         pointer-events: none;
     }
+
     .sidebar:hover .sidebar-menu {
         opacity: 1;
         pointer-events: auto;
     }
+
     .sidebar-menu a {
         color: white;
         text-decoration: none;
@@ -56,10 +72,12 @@
         align-items: center;
         margin-bottom: 10px
     }
+
     .sidebar-menu a:hover {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 15px
     }
+
     .sidebar-bottom {
         margin-top: auto;
         width: 100%;
@@ -67,37 +85,44 @@
         box-sizing: border-box;
         color: white;
     }
+
     .divider {
         border: none;
         border-top: 1px solid white;
         margin-bottom: 12px;
         opacity: 0.6;
     }
+
     .profile-info {
         display: flex;
         align-items: center;
         gap: 12px;
     }
+
     .profile {
         width: 48px;
         height: 48px;
         border-radius: 50%;
         object-fit: cover;
     }
+
     .user-details {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
+
     .user-name {
         font-weight: bold;
         font-size: 1rem;
     }
+
     .user-email {
         font-size: 0.85rem;
         opacity: 0.8;
     }
+
     .logout-btn {
         background: transparent;
         border: 1.5px solid white;
@@ -108,14 +133,17 @@
         cursor: pointer;
         transition: background-color 0.2s, color 0.2s;
     }
+
     .logout-btn:hover {
         background-color: white;
-        color: #2876E9; 
+        color: #2876E9;
     }
+
     .sidebar img.profile {
         width: 48px;
         border-radius: 50%;
     }
+
     .sidebar-logo {
         display: flex;
         align-items: center;
@@ -123,6 +151,7 @@
         padding-left: 0;
         width: 100%;
     }
+
     .logo-text {
         color: white;
         font-size: 1.3rem;
@@ -131,9 +160,11 @@
         opacity: 0;
         transition: opacity 0.3s ease;
     }
+
     .sidebar:hover .logo-text {
         opacity: 1;
     }
+
     .sidebar-menu a.active {
         background: rgba(255, 255, 255, 0.4);
         font-weight: bold;
@@ -143,11 +174,13 @@
         padding: 12px 10px;
         text-decoration: none;
     }
+
     .sidebar-menu a .menu-icon {
         width: 20px;
         height: 16px;
         margin-right: 8px;
     }
+
     .logout-btn {
         background: none;
         border: none;
@@ -157,26 +190,38 @@
         align-items: center;
         justify-content: center;
     }
+
     .logout-btn img {
         width: 24px;
         height: 24px;
     }
-    
+
     /* Main */
     .main-content {
         flex: 1;
         background: #f8f8f8;
         padding: 40px 40px 0 40px;
-        overflow-y: auto; 
+        overflow-y: auto;
     }
-    .header-row { display: flex; justify-content: space-between; align-items: center; }
-    .header-row h1 { font-size: 2.5rem; margin: 0; }
+
+    .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-row h1 {
+        font-size: 2.5rem;
+        margin: 0;
+    }
+
     .header-row-2 {
         display: flex;
         align-items: center;
-        justify-content: space-between; 
+        justify-content: space-between;
         gap: 20px;
     }
+
     .create-btn {
         background: #2876E9;
         color: #fff;
@@ -191,15 +236,20 @@
         gap: 8px;
         transition: background 0.2s;
     }
-    .create-btn:hover { background: #1565c0; }
+
+    .create-btn:hover {
+        background: #1565c0;
+    }
+
     .subheader {
         margin: 0;
         font-size: 1.1rem;
         color: #555;
     }
+
     .search-bar {
-        flex-grow: 1; 
-        max-width: 80%; 
+        flex-grow: 1;
+        max-width: 80%;
         display: flex;
         align-items: center;
         background: #e0e0e0;
@@ -209,6 +259,7 @@
         border: none;
         outline: none;
     }
+
     .search-bar input {
         border: none;
         background: transparent;
@@ -216,12 +267,14 @@
         font-size: 1.1rem;
         outline: none;
     }
+
     .articles-grid {
         margin-top: 20px;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 32px;
     }
+
     .article-card {
         text-decoration: none !important;
         color: inherit;
@@ -230,22 +283,70 @@
         padding: 0;
         background: #fff;
         border-radius: 16px;
-        box-shadow: 0 2px 8px rgba(33,150,243,0.07);
+        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.07);
         overflow: hidden;
         transition: box-shadow 0.2s;
         cursor: pointer;
         display: flex;
         flex-direction: column;
     }
-    .article-card:hover { text-decoration: none !important; box-shadow: 0 4px 16px rgba(33,150,243,0.13); }
-    .article-img { width: 100%; height: 180px; object-fit: cover; }
-    .article-content { padding: 18px 18px 10px 18px; }
-    .article-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 6px; }
-    .article-author { color: #444; font-size: 1rem; margin-bottom: 8px; }
-    .article-meta { color: #888; font-size: 0.95rem; }
+
+    .article-card:hover {
+        text-decoration: none !important;
+        box-shadow: 0 4px 16px rgba(33, 150, 243, 0.13);
+    }
+
+    .article-img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+    }
+
+    .article-content {
+        padding: 18px 18px 10px 18px;
+    }
+
+    .article-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    .article-author {
+        color: #444;
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+    .article-meta {
+        color: #888;
+        font-size: 0.95rem;
+    }
+
+    .article-wrapper {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: box-shadow 0.2s;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        text-decoration: none;
+    }
+
+    .article-wrapper:hover {
+        box-shadow: 0 4px 16px rgba(33, 150, 243, 0.13);
+    }
+
+
     @media (max-width: 900px) {
-        .main-content { padding: 20px 5vw 0 5vw; }
-        .articles-grid { gap: 18px; }
+        .main-content {
+            padding: 20px 5vw 0 5vw;
+        }
+
+        .articles-grid {
+            gap: 18px;
+        }
     }
 </style>
 <div class="dashboard-container">
@@ -297,10 +398,6 @@
         <div class="header-row">
             <h1>Blog Articles</h1>
         </div>
-        <a href="{{ route('articles.create') }}" class="create-btn">
-            <span style="font-size: 1.3rem;">➕</span> Create Article
-        </a>
-
         <div class="header-row-2">
             <span class="subheader">News for your daily needs!</span>
             <form class="search-bar" method="GET">
@@ -310,30 +407,33 @@
         </div>
         <div class="articles-grid">
             @foreach($articles as $article)
+            <div class="article-wrapper">
                 <a href="{{ route('articles.show', $article->slug) }}" class="article-card">
                     @if($article->thumbnail)
-                        <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->title }}" class="article-img">
+                    <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->title }}" class="article-img">
                     @else
-                        <img src="{{ asset('images/article-placeholder.jpg') }}" alt="Article Image" class="article-img">
+                    <img src="{{ asset('images/article-placeholder.jpg') }}" alt="Article Image" class="article-img">
                     @endif
-                    
-                    <div class="article-content">
-                        <h2 class="article-title">{{ $article->title }}</h2>
-                        <p class="article-author">By {{ $article->user->name }}</p>
-                        
-                        <div class="article-meta-group">
-                            <span class="article-date">{{ $article->created_at->format('M d, Y') }}</span>
-                            @if($article->views)
-                                <span class="article-views">{{ number_format($article->views) }} views</span>
-                            @endif
-                            @if($article->read_time)
-                                <span class="article-read-time">{{ $article->read_time }} min read</span>
-                            @endif
-                        </div>
-                    </div>
                 </a>
+
+                <div class="article-content">
+                    <h2 class="article-title">{{ $article->title }}</h2>
+                    <p class="article-author">By {{ $article->user->name }}</p>
+
+                    <div class="article-meta-group">
+                        <span class="article-date">{{ $article->created_at->format('M d, Y') }} •</span>
+                        @if($article->views)
+                        <span class="article-views">{{ number_format($article->views) }} views •</span>
+                        @endif
+                        @if($article->read_time)
+                        <span class="article-read-time">{{ $article->read_time }} min read</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
             @endforeach
         </div>
     </div>
+</div>
 </div>
 @endsection

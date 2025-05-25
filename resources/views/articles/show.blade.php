@@ -30,7 +30,7 @@
     }
 
     .sidebar:hover {
-        width: 280px;
+        width: 330px;
         align-items: flex-start;
         padding-left: 20px;
     }
@@ -416,6 +416,13 @@
         gap: 15px;
         flex-direction: row;
         align-items: center;
+        width: fit-content;
+        padding: 10px 0;
+    }
+
+    .action-buttons button,
+    .action-buttons form {
+        margin: 0;
     }
 
     .btn-edit-article,
@@ -447,6 +454,48 @@
         padding: 20px;
         box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
     }
+
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 20px 30px;
+        border-radius: 8px;
+        text-align: center;
+        max-width: 320px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .btn-confirm {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        margin-right: 10px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .btn-cancel {
+        background-color: #bdc3c7;
+        color: black;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
 </style>
 
 <div class="dashboard-container">
@@ -539,15 +588,14 @@
                     <button onclick="location.href='{{ route('articles.edit', $article->id) }}';" class="btn-edit-article">
                         Edit Article
                     </button>
-                    <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this blog post?');" style="display: inline;">
+                    <form action="{{ route('articles.destroy', $article->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn-delete-article">
+                        <button type="button" onclick="showConfirmModal(this.form)" class="btn-delete-article">
                             Delete Article
                         </button>
                     </form>
                 </div>
-
                 @endcan
                 @endauth
             </div>
@@ -639,6 +687,17 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Background -->
+<div id="confirm-modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h2>Discard Blog?</h2>
+    <p>If you discard this blog, you won't be able to recover it.</p>
+    <button id="confirm-yes" class="btn-confirm">Yes, Delete</button>
+    <button id="confirm-no" class="btn-cancel">Cancel</button>
+  </div>
+</div>
+
 @endsection
 
 <script>
@@ -692,4 +751,26 @@
         const commentContent = form.parentElement;
         commentContent.innerHTML = originalText;
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('confirm-modal');
+        const btnYes = document.getElementById('confirm-yes');
+        const btnNo = document.getElementById('confirm-no');
+        let formToSubmit = null;
+
+        window.showConfirmModal = function(form) {
+            formToSubmit = form;
+            modal.style.display = 'flex';
+        }
+
+        btnYes.addEventListener('click', () => {
+            if(formToSubmit) formToSubmit.submit();
+            modal.style.display = 'none';
+        });
+
+        btnNo.addEventListener('click', () => {
+            modal.style.display = 'none';
+            formToSubmit = null;
+        });
+    });
 </script>
