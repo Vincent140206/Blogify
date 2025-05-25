@@ -62,7 +62,7 @@ Edit file `.env` untuk disesuaikan dengan konfigurasi lokal kamu:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=blogify_db
+DB_DATABASE=blogify
 DB_USERNAME=root
 DB_PASSWORD=
 ```
