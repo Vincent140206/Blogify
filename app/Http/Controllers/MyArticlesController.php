@@ -16,7 +16,7 @@ class MyArticlesController extends Controller
             $searchTerm = $request->q;
             $query->where(function($q) use ($searchTerm) {
                 $q->where('title', 'LIKE', '%' . $searchTerm . '%')
-                  ->orWhere('content', 'LIKE', '%' . $searchTerm . '%');
+                  ->orWhere('body', 'LIKE', '%' . $searchTerm . '%');
             });
         }
         

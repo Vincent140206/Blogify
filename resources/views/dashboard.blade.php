@@ -278,7 +278,7 @@
     .article-card {
         text-decoration: none !important;
         color: inherit;
-        width: 100%;
+        width: 400px;
         height: 100%;
         padding: 0;
         background: #fff;
@@ -400,10 +400,13 @@
         </div>
         <div class="header-row-2">
             <span class="subheader">News for your daily needs!</span>
-            <form class="search-bar" method="GET">
-                <span style="font-size:1.3rem; color:#888;">&#128269;</span>
+            <form class="search-bar" method="GET" action="{{ route('dashboard') }}">
                 <input type="text" name="q" placeholder="Search" value="{{ request('q') }}">
+                <button type="submit" style="background:none; border:none; cursor:pointer; font-size:1.3rem; color:#888;">
+                    &#128269;
+                </button>
             </form>
+
         </div>
         <div class="articles-grid">
             @foreach($articles as $article)

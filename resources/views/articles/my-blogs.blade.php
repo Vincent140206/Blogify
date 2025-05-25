@@ -230,7 +230,7 @@
     .article-card {
         text-decoration: none !important;
         color: inherit;
-        width: 100%;
+        width: 400px;
         height: 100%;
         padding: 0;
         background: #fff;
