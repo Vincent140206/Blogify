@@ -185,8 +185,8 @@
     </div>
 </div>
 
-<div id="deleteModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
-    <div style="background: white; margin: 15% auto; padding: 20px; border-radius: 12px; width: 500px;">
+<div id="deleteModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+    <div style="background: white; margin: 7% auto; padding: 20px; border-radius: 12px; width: 500px;">
         <h4 style="margin-bottom: 20px; color: #dc3545;">⚠️ Delete Account</h4>
         <p style="margin-bottom: 20px; color: #666;">This action cannot be undone. This will permanently delete your account and remove all your data from our servers.</p>
 
