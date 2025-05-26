@@ -33,7 +33,9 @@
                 </div>
                 <div class="social-login">
                     <button title="Login with Google">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="Google" width="28">
+                    <a href="/login/google" title="Login with Google">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="Google" width="28">
+                    </a>
                     </button>
                     <button title="Login with Facebook">
                         <img src="https://cdn.freebiesupply.com/logos/large/2x/facebook-logo-2019.png" alt="Facebook" width="28">

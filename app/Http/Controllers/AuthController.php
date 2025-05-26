@@ -102,7 +102,7 @@ class AuthController extends Controller
 
     public function showRecoveryForm()
     {
-        return view('auth.recovery'); // pastikan nama view-nya sesuai
+        return view('auth.recovery'); 
     }
 
     public function recoverPassword(Request $request)
@@ -132,7 +132,22 @@ class AuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback() {
-        $user = Socialite::driver('google')->stateless()->user();
-    }
+   public function handleGoogleCallback()
+   {
+        $googleUser = Socialite::driver('google')->stateless()->user();
+        $user = User::where('email', $googleUser->getEmail())->first();
+
+        if (!$user) {
+            $user = User::create([
+                'name' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'password' => bcrypt(uniqid()),
+                'email_verified_at' => now(),
+            ]);
+        }
+
+        Auth::login($user);
+        return redirect('/dashboard');
+}
+
 }
