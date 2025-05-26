@@ -22,6 +22,10 @@ Route::get('/test-auth', function () {
     return auth()->check() ? 'Logged in' : 'Not logged in';
 });
 
+// Socialite Login
+Route::get('/login/google', [AuthController::class, 'redirectToGoogle']);
+Route::get('/login/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
 // Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);

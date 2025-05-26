@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Socialite;
 
 
 class AuthController extends Controller
@@ -125,5 +126,13 @@ class AuthController extends Controller
         $user->save();
 
         return redirect()->route('login')->with('success', 'Password berhasil di-reset. Silakan login kembali.');
+    }
+
+    public function redirectToGoogle() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback() {
+        $user = Socialite::driver('google')->stateless()->user();
     }
 }
