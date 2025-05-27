@@ -31,6 +31,11 @@
                 <div class="register-link">
                     Don’t have an account? <a href="{{ route('register') }}"><b>Register!</b></a>
                 </div>
+                <hr class="divider" />
+                <div class="or-login-with">
+                    or login with
+                </div>
+                <!-- Social Login Buttons -->
                 <div class="social-login">
                     <button title="Login with Google">
                     <a href="/login/google" title="Login with Google">
