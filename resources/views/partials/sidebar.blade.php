@@ -27,7 +27,7 @@
         <hr class="divider" />
         <div class="profile-info">
             <a href="{{ route('settings.index') }}">
-                <img src="{{ Auth::user()->profile_photo_url }}" alt="Profile" class="profile" />
+                <img src="{{ Auth::user()->profile_photo_url ?? asset('images/default-avatar.png') }}" alt="Profile" class="profile" />
             </a>
             <div class="sidebar-content">
                 <div class="user-details">

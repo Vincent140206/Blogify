@@ -26,6 +26,9 @@ Route::get('/test-auth', function () {
 Route::get('/login/google', [AuthController::class, 'redirectToGoogle']);
 Route::get('/login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
+Route::get('auth/github', [AuthController::class, 'redirectToGithub'])->name('github.login');
+Route::get('auth/github/callback', [AuthController::class, 'handleGithubCallback']);
+
 // Register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);

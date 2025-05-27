@@ -58,7 +58,7 @@ class AuthController extends Controller
 
         // Login
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // Bikin sesion baru
+            $request->session()->regenerate(); 
             return redirect()->intended('/dashboard')->with('success', 'Selamat datang!');
         }
 
@@ -148,6 +148,34 @@ class AuthController extends Controller
 
         Auth::login($user);
         return redirect('/dashboard');
-}
+    }
+
+    public function redirectToGithub()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function handleGithubCallback()
+    {
+        try {
+            $githubUser = Socialite::driver('github')->stateless()->user();
+
+            $user = User::updateOrCreate(
+                ['email' => $githubUser->getEmail()],
+                [
+                    'name' => $githubUser->getName() ?? $githubUser->getNickname(),
+                    'github_id' => $githubUser->getId(),
+                    'avatar' => $githubUser->getAvatar(),
+                    'password' => bcrypt('default_password'),
+                ]
+            );
+
+            Auth::login($user);
+
+            return redirect()->intended('dashboard');
+        } catch (\Exception $e) {
+            return redirect('/login')->with('error', 'Login GitHub gagal.');
+        }
+    }
 
 }
